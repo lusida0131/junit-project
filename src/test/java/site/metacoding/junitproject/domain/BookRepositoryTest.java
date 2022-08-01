@@ -77,6 +77,29 @@ class BookRepositoryTest {
         assertEquals(author, bookPS.getAuthor());
     }
     // 4. 책 수정
+    @Test
+    @Sql("classpath:db/tableInit.sql")
+    void 수정() {
+        //given
+        Long id = 1L;
+        String title = "junit";
+        String author = "lusida";
+        Book book = new Book(id, title, author);
+        //when
+        Book bookPS = bookRepository.save(book);
+
+//        bookRepository.findAll().stream()
+//                .forEach(b -> {
+//                    System.out.println(b.getId());
+//                    System.out.println(b.getTitle());
+//                    System.out.println(b.getAuthor());
+//                    System.out.println("====================");});
+        //then
+        assertEquals(id, bookPS.getId());
+        assertEquals(title, bookPS.getTitle());
+        assertEquals(author, bookPS.getAuthor());
+    }
+    // 5. 책 삭제
     @Sql("classpath:db/tableInit.sql")
     @Test
     void 삭제() {
@@ -88,5 +111,4 @@ class BookRepositoryTest {
         //then
         assertFalse(bookRepository.findById(id).isPresent());
     }
-    // 5. 책 삭제
 }
