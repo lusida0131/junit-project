@@ -1,7 +1,6 @@
 package site.metacoding.junitproject.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.metacoding.junitproject.domain.Book;
@@ -32,9 +31,15 @@ public class BookService {
     }
 
     // 3. 책 한건 보기
-
+    public BookRespDto 책한건보기(BookRespDto dto) {
+        Book bookPS = bookRepository.findById(dto.getId()).get();
+        return new BookRespDto().toDto(bookPS);
+    }
     // 4. 책 삭제
-
+    public BookRespDto 책삭제하기(BookRespDto dto) {
+        Book bookPS = bookRepository.deleteById(dto.getId());
+        return new BookRespDto().toDto(bookPS);
+    }
     // 5. 책 수정
 
 }
