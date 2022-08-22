@@ -1,16 +1,18 @@
 package site.metacoding.junitproject.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import site.metacoding.junitproject.domain.Book;
 import site.metacoding.junitproject.domain.BookRepository;
 import site.metacoding.junitproject.util.MailSender;
 import site.metacoding.junitproject.web.dto.BookRespDto;
 import site.metacoding.junitproject.web.dto.BookSaveReqDto;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -41,23 +43,58 @@ class BookServiceTest {
         //Assertions.assertEquals(dto.getTitle(), bookRespDto.getTitle());  비추
         //Assertions.assertEquals(dto.getAuthor(), bookRespDto.getAuthor()); 비추
 
-        assertThat(dto.getTitle()).isEqualTo(bookRespDto.getTitle());
-        assertThat(dto.getAuthor()).isEqualTo(bookRespDto.getAuthor());
+        assertThat(bookRespDto.getTitle()).isEqualTo(dto.getTitle());
+        assertThat(bookRespDto.getAuthor()).isEqualTo(dto.getAuthor());
     }
 
     @Test
     void 책목록보기() {
+        //given
+
+        //stub
+        List<Book> books = new ArrayList<>();
+        books.add(new Book(1L, "Junit 강의", "매타코딩"));
+        books.add(new Book(2L, "lusida", "박현성"));
+
+        when(bookRepository.findAll()).thenReturn(books);
+        //when
+        List<BookRespDto> bookRespDtoList = bookService.책목록보기();
+
+        //then
+        assertThat(bookRespDtoList.get(0).getTitle()).isEqualTo("Junit 강의");
+        assertThat(bookRespDtoList.get(1).getTitle()).isEqualTo("lusida");
     }
 
     @Test
     void 책한건보기() {
-    }
+        //given
+        Long id = 1L;
 
-    @Test
-    void 책삭제하기() {
+        //stub
+        Book book = new Book(1L, "Junit 강의", "매타코딩");
+        Optional<Book> bookOP = Optional.of(book);
+        when(bookRepository.findById(id)).thenReturn(bookOP);
+        //when
+        BookRespDto bookRespDto = bookService.책한건보기(1L);
+        //then
+        assertThat(bookRespDto.getTitle()).isEqualTo(book.getTitle());
+        assertThat(bookRespDto.getAuthor()).isEqualTo(book.getAuthor());
     }
-
     @Test
     void 책수정하기() {
+        //given
+        Long id = 1L;
+        BookSaveReqDto dto = new BookSaveReqDto();
+        dto.setTitle("Junit lusida");
+        dto.setAuthor("lusida");
+        //stub
+        Book book = new Book(1L, "Junit 강의", "매타코딩");
+        Optional<Book> bookOP = Optional.of(book);
+        when(bookRepository.findById(id)).thenReturn(bookOP);
+        //when
+        BookRespDto bookRespDto = bookService.책수정하기(id, dto);
+        //then
+        assertThat(bookRespDto.getTitle()).isEqualTo(dto.getTitle());
+        assertThat(bookRespDto.getAuthor()).isEqualTo(dto.getAuthor());
     }
 }
