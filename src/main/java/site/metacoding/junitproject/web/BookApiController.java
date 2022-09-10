@@ -30,7 +30,6 @@ public class BookApiController {
     // 1. 책 등록하기
     @PostMapping("/api/v1/book")
     public ResponseEntity<?> saveBook(@RequestBody @Valid BookSaveReqDto bookSaveReqDto, BindingResult bindingResult) {
-        BookRespDto bookRespDto = bookService.책등록하기(bookSaveReqDto);
 
         //AOP 처리하는게 좋음
         if(bindingResult.hasErrors()) {
@@ -39,8 +38,10 @@ public class BookApiController {
                 errorMap.put(fe.getField(), fe.getDefaultMessage());
             }
             log.info(errorMap.toString());
-            return new ResponseEntity<>(CNRespDto.builder().code(-1).msg(errorMap.toString()).body(bookRespDto).build(), HttpStatus.BAD_REQUEST); // 400 잘못된 요청
+            throw new RuntimeException(errorMap.toString());
         }
+        BookRespDto bookRespDto = bookService.책등록하기(bookSaveReqDto);
+
         return new ResponseEntity<>(CNRespDto.builder().code(1).msg("글 저장 성공").body(bookRespDto).build(), HttpStatus.CREATED); // 201 insert bookRespDto json
     }
     // 2. 책 목록보기
