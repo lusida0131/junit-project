@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import site.metacoding.junitproject.domain.Book;
 import site.metacoding.junitproject.domain.BookRepository;
 import site.metacoding.junitproject.util.MailSender;
+import site.metacoding.junitproject.web.dto.reponse.BookListResDto;
 import site.metacoding.junitproject.web.dto.reponse.BookRespDto;
 import site.metacoding.junitproject.web.dto.request.BookSaveReqDto;
 import java.util.ArrayList;
@@ -58,11 +59,11 @@ class BookServiceTest {
 
         when(bookRepository.findAll()).thenReturn(books);
         //when
-        List<BookRespDto> bookRespDtoList = bookService.책목록보기();
+        BookListResDto bookRespDtoList = bookService.책목록보기();
 
         //then
-        assertThat(bookRespDtoList.get(0).getTitle()).isEqualTo("Junit 강의");
-        assertThat(bookRespDtoList.get(1).getTitle()).isEqualTo("lusida");
+        assertThat(bookRespDtoList.getItems().get(0).getTitle()).isEqualTo("Junit 강의");
+        assertThat(bookRespDtoList.getItems().get(1).getTitle()).isEqualTo("lusida");
     }
 
     @Test

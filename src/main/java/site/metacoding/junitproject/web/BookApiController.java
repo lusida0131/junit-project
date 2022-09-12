@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import site.metacoding.junitproject.service.BookService;
+import site.metacoding.junitproject.web.dto.reponse.BookListResDto;
 import site.metacoding.junitproject.web.dto.reponse.BookRespDto;
 import site.metacoding.junitproject.web.dto.reponse.CNRespDto;
 import site.metacoding.junitproject.web.dto.request.BookSaveReqDto;
@@ -47,12 +48,13 @@ public class BookApiController {
     // 2. 책 목록보기
     @GetMapping("/api/v1/booklist")
     public ResponseEntity<?> getBookList(@RequestBody BookRespDto bookRespDto) {
-        List<BookRespDto> list = bookService.책목록보기();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        BookListResDto list = bookService.책목록보기();
+        return new ResponseEntity<>(CNRespDto.builder().code(1).msg("글 목록 가져오기 성공").body(list).build(), HttpStatus.OK);
     }
     // 3. 책 한건 보기
-    public ResponseEntity<?> getBookOne() {
-        return null;
+    public ResponseEntity<?> getBookOne(Long id) {
+        BookRespDto bookRespDto = bookService.책한건보기(id);
+        return new ResponseEntity<>(CNRespDto.builder().code(1).msg("글 한건 가져오기 성공").body(bookRespDto).build(), HttpStatus.OK);
     }
     // 4. 책 삭제
     public ResponseEntity<?> deleteBook() {
