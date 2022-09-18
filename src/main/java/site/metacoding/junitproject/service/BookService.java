@@ -39,7 +39,7 @@ public class BookService {
               //  .map((bookPS) -> bookPS.toDto())
                 .map(Book::toDto)
                 .collect(Collectors.toList());
-        BookListResDto bookListResDto = BookListResDto.builder().bookList(dtos).build();
+        BookListResDto bookListResDto = BookListResDto.builder().items(dtos).build();
         return bookListResDto;
     }
 
