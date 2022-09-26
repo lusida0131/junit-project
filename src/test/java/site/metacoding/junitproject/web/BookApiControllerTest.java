@@ -18,8 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 // 통합 테스트 작성
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BookApiControllerTest {
-    @Autowired
-    private BookService bookService;
 
     @Autowired
     private TestRestTemplate rt;
