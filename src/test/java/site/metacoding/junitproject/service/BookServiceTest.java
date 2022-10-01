@@ -61,6 +61,7 @@ class BookServiceTest {
         //when
         BookListResDto bookRespDtoList = bookService.책목록보기();
 
+
         //then
         assertThat(bookRespDtoList.getItems().get(0).getTitle()).isEqualTo("Junit 강의");
         assertThat(bookRespDtoList.getItems().get(1).getTitle()).isEqualTo("lusida");
