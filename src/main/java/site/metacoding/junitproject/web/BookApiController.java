@@ -48,7 +48,7 @@ public class BookApiController {
     }
     // 2. 책 목록보기
     @GetMapping("/api/v1/booklist")
-    public ResponseEntity<?> getBookList(@RequestBody BookRespDto bookRespDto) {
+    public ResponseEntity<?> getBookList() {
         BookListResDto list = bookService.책목록보기();
         return new ResponseEntity<>(CNRespDto.builder().code(1).msg("글 목록 가져오기 성공").body(list).build(), HttpStatus.OK);
     }
